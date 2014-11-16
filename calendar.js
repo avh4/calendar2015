@@ -1,7 +1,7 @@
 // From http://googleappsdeveloper.blogspot.com/2011/12/using-new-js-library-to-unlock-power-of.html
 
-var clientId = '366846958680-246mghtr1mjlj3s20gil8j1nd95nacll.apps.googleusercontent.com';
-var apiKey = 'YZvmaxmah0WrfrqxkDK2TAly';
+var clientId = '28903411901-vqu42sh3sfe679a6q3rv44d1e1l7kivu.apps.googleusercontent.com';
+var apiKey = 'dlhtyevTzMwwCVHqRTKa1EkL';
 var scopes = 'https://www.googleapis.com/auth/calendar.readonly';
 
 function handleClientLoad() {
