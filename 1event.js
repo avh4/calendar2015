@@ -40,8 +40,14 @@ function tile4() {
 
 function tile5() {
   tile4();
-  rotate(45);
+  rotate(15);
   tile4();
+}
+
+function tile6() {
+  tile5();
+  rotate(65);
+  tile5();
 }
 
 
@@ -63,4 +69,7 @@ function draw() {
   
   translate(160 + gutter, 0);
   tile5();
+  
+  translate(80, 160);
+  tile6();
 }
