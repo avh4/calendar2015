@@ -4,6 +4,77 @@ var hasDrawn = false;
 var curve;
 var smooth;
 
+var lineTileset = {
+  tile1: function() {
+	stroke(0, 0, 0);
+	line(0, -80, 0, -60);
+	line( -80,0, -60, 0);
+	line(0, 80, 0, 60);
+	line( 80,0, 60, 0);
+  },
+  tile2: function() {
+	this.tile1();
+	line(-60,0, 0,-60);
+  },
+  tile3: function() {
+	this.tile2();
+	line(60,0, 0,60);
+  },
+  tile4: function() {
+	stroke(0, 0, 0);
+	line(0, -80, 0, 80);
+	line(-80, 0, 80, 0);
+  },
+  tile5: function() {
+    this.tile4();
+    rotate(45);
+    this.tile4();
+    rotate(-45);
+  },
+  logo: function() {
+    for (var i = 0; i < 8; i++) {
+  		this.tile4();
+  	    rotate(45);
+    }
+  }
+};
+
+var curvedTileset = {
+  tile1: function() {
+	stroke(0, 0, 0);
+	line(0, -80, 0, -60);
+	line( -80,0, -60, 0);
+	line(0, 80, 0, 60);
+	line( 80,0, 60, 0);
+  },
+  tile2: function() {
+  	this.tile1();
+  	line(-60,0, 0,-60);
+  },
+  tile3: function() {
+  	this.tile2();
+  	line(60,0, 0,60);
+  },
+  tile4: function() {
+    bezier(-80, 0,  -smooth, -curve, smooth, -curve, 80, 0);
+    bezier(0, -80,  -curve, -smooth, -curve, smooth, 0, 80);
+  },
+	tile5: function() {
+this.tile4();
+rotate(45);
+this.tile4();
+rotate(-45);
+	},
+  logo: function() {
+    for (var i = 0; i < 8; i++) {
+		this.tile4();
+	    rotate(45);
+    }
+  }
+};
+
+var tileset = curvedTileset;
+
 function setup() {
   createCanvas(1280, 2000);
   angleMode(DEGREES);
@@ -14,46 +85,6 @@ function setup() {
   });
   curve = random(200) - 100;
   smooth = random(200) - 100;
-}
-
-function tile1() {
-  stroke(0, 0, 0);
-  line(0, -80, 0, -60);
-  line( -80,0, -60, 0);
-  line(0, 80, 0, 60);
-  line( 80,0, 60, 0);
-}
-
-function tile2() {
-  tile1();
-  line(-60,0, 0,-60);
-}
-
-
-function tile3() {
-  tile2();
-  line(60,0, 0,60);
-  
-}
-
-function tile4() {
-  stroke(0, 0, 0);
-  line(0, -80, 0, 80);
-  line(-80, 0, 80, 0);
-}
-
-function tile5() {
-  tile4();
-  rotate(45);
-  tile4();
-  rotate(-45);
-  
-}
-
-function tile6() {
-  bezier(-80, 0,  -smooth, -curve, smooth, -curve, 80, 0);
-  bezier(0, -80,  -curve, -smooth, -curve, smooth, 0, 80);
-  
 }
 
 function drawCalendarFrame(title) {
@@ -75,6 +106,13 @@ function drawCalendarFrame(title) {
   text("THURSDAY",  40+gutter+80 + (gutter+160)*4, 300);
   text("FRIDAY",    40+gutter+80 + (gutter+160)*5, 300);
   text("SATURDAY",  40+gutter+80 + (gutter+160)*6, 300);
+  
+  push();
+  stroke(0,0,0);
+  translate(1100, 80);
+  scale(0.7, 0.7);
+  tileset.logo();
+  pop();
 }
 
 function draw() {
@@ -89,15 +127,14 @@ function draw() {
   
   if (!data.forEach) return;
   data.forEach(function(n) {
-    if (n == 1) tile1();
-    if (n == 2) tile2();
-    if (n == 3) tile3();
-    if (n == 4) tile4();
-    if (n == 5) tile5();
-    if (n >= 6) tile6();
+    if (n == 1) tileset.tile1();
+    if (n == 2) tileset.tile2();
+    if (n == 3) tileset.tile3();
+    if (n == 4) tileset.tile4();
+    if (n >= 5) tileset.tile5();
     i += 1;
     if (i % 7 == 0) {
-      translate((160+gutter)*-6, 160);
+      translate((160+gutter)*-6, 160+gutter);
     } else {
       translate(160 + gutter, 0);
     }
