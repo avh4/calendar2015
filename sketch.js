@@ -16,25 +16,29 @@ var lineTileset = {
 
   },
   tile2: function() {
+  	whiteGrid();
 	this.tile1();
 	line(-60,0, 0,-60);
   },
   tile3: function() {
+  	whiteGrid();
 	this.tile2();
 	line(60,0, 0,60);
   },
   tile4: function() {
+  	whiteGrid();
 	stroke(0, 0, 0);
 	line(0, -80, 0, 80);
 	line(-80, 0, 80, 0);
   },
   tile5: function() {
-    this.tile4();
+     this.tile4();
     rotate(45);
     this.tile4();
     rotate(-45);
   },
   logo: function() {
+  
     for (var i = 0; i < 8; i++) {
   		this.tile4();
   	    rotate(45);
@@ -44,33 +48,34 @@ var lineTileset = {
 
 var curvedTileset = {
   tile1: function() { 
-   
+   	whiteGrid();
     stroke(0, 0, 0);
 	line(0, -80, 0, -60);
 	line( -80,0, -60, 0);
 	line(0, 80, 0, 60);
 	line( 80,0, 60, 0);	
-	noStroke();
-	fill(255,255,255);
-	rect(40+gutter,320+gutter,160,160);
 	  },
   tile2: function() {
+  	whiteGrid();
   	this.tile1();
   	line(-60,0, 0,-60);
   },
   tile3: function() {
+  	whiteGrid();
   	this.tile2();
   	line(60,0, 0,60);
   },
   tile4: function() {
+  	whiteGrid();
     bezier(-80, 0,  -smooth, -curve, smooth, -curve, 80, 0);
     bezier(0, -80,  -curve, -smooth, -curve, smooth, 0, 80);
   },
 	tile5: function() {
-this.tile4();
-rotate(45);
-this.tile4();
-rotate(-45);
+	
+	this.tile4();
+	rotate(45);
+	this.tile4();
+	rotate(-45);
 	},
   logo: function() {
     for (var i = 0; i < 8; i++) {
@@ -97,11 +102,7 @@ function setup() {
   
   
 
-function whiteGrid() {
-	noStroke();
-	fill(255,255,255);
-	rect(40+gutter,320+gutter,160,160);
-}
+
 
 function drawCalendarFrame(title) {
   noStroke();
@@ -133,12 +134,17 @@ function drawCalendarFrame(title) {
   
 }
 
+function whiteGrid() {
+	noStroke();
+	fill(255,255,255);
+	rect(-80,-80,160,160);
+}
+
+
 function draw() {
   if (hasDrawn) return;
-  
   drawCalendarFrame("March 2015");
-  
-	  
+  	  
   var i = 0; 
   translate(40+gutter, 320 + gutter);
   translate(80, 80);
@@ -149,16 +155,16 @@ function draw() {
     if (n == 2) tileset.tile2();
     if (n == 3) tileset.tile3();
     if (n == 4) tileset.tile4();
-    if (n >= 5) tileset.tile5();
-    
-    
+    if (n >= 5) tileset.tile5();    
     i += 1;
     if (i % 7 == 0) {
-      translate((160+gutter)*-6, 160+gutter);
+     translate((160+gutter)*-6, 160+gutter);
+    
     } else {
       translate(160 + gutter, 0);
     }
   }); 
    
   hasDrawn = true;
+  
 }
