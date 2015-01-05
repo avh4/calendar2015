@@ -1,8 +1,10 @@
-var data = [1, 2, 3, 4, 5,6,5,4];
+var data = [1, 2, 3, 4, 1,2,4, 1, 5, 3, 4, 2,6,5,4,1, 5, 3, 1,2,1,4,3, 2, 3, 5,4, 5,6,1,4];
 var gutter = 10;
 var hasDrawn = false;
 var curve;
 var smooth;
+
+
 
 var lineTileset = {
   tile1: function() {
@@ -11,6 +13,7 @@ var lineTileset = {
 	line( -80,0, -60, 0);
 	line(0, 80, 0, 60);
 	line( 80,0, 60, 0);
+
   },
   tile2: function() {
 	this.tile1();
@@ -40,13 +43,17 @@ var lineTileset = {
 };
 
 var curvedTileset = {
-  tile1: function() {
-	stroke(0, 0, 0);
+  tile1: function() { 
+   
+    stroke(0, 0, 0);
 	line(0, -80, 0, -60);
 	line( -80,0, -60, 0);
 	line(0, 80, 0, 60);
-	line( 80,0, 60, 0);
-  },
+	line( 80,0, 60, 0);	
+	noStroke();
+	fill(255,255,255);
+	rect(40+gutter,320+gutter,160,160);
+	  },
   tile2: function() {
   	this.tile1();
   	line(-60,0, 0,-60);
@@ -85,6 +92,15 @@ function setup() {
   });
   curve = random(200) - 100;
   smooth = random(200) - 100;
+  
+  }
+  
+  
+
+function whiteGrid() {
+	noStroke();
+	fill(255,255,255);
+	rect(40+gutter,320+gutter,160,160);
 }
 
 function drawCalendarFrame(title) {
@@ -111,17 +127,19 @@ function drawCalendarFrame(title) {
   stroke(0,0,0);
   translate(1100, 80);
   scale(0.7, 0.7);
-  tileset.logo();
+  tileset.logo();  
   pop();
+    
+  
 }
 
 function draw() {
   if (hasDrawn) return;
   
-  drawCalendarFrame("MARCH 2015");
+  drawCalendarFrame("March 2015");
   
-  var i = 0;
-  
+	  
+  var i = 0; 
   translate(40+gutter, 320 + gutter);
   translate(80, 80);
   
@@ -132,12 +150,15 @@ function draw() {
     if (n == 3) tileset.tile3();
     if (n == 4) tileset.tile4();
     if (n >= 5) tileset.tile5();
+    
+    
     i += 1;
     if (i % 7 == 0) {
       translate((160+gutter)*-6, 160+gutter);
     } else {
       translate(160 + gutter, 0);
     }
-  });
+  }); 
+   
   hasDrawn = true;
 }
