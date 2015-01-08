@@ -48,7 +48,6 @@ var lineTileset = {
 
 var curvedTileset = {
   tile1: function() { 
-   	whiteGrid();
     stroke(0, 0, 0);
 	line(0, -80, 0, -60);
 	line( -80,0, -60, 0);
@@ -56,22 +55,18 @@ var curvedTileset = {
 	line( 80,0, 60, 0);	
 	  },
   tile2: function() {
-  	whiteGrid();
   	this.tile1();
   	line(-60,0, 0,-60);
   },
   tile3: function() {
-  	whiteGrid();
   	this.tile2();
   	line(60,0, 0,60);
   },
   tile4: function() {
-  	whiteGrid();
     bezier(-80, 0,  -smooth, -curve, smooth, -curve, 80, 0);
     bezier(0, -80,  -curve, -smooth, -curve, smooth, 0, 80);
   },
 	tile5: function() {
-	
 	this.tile4();
 	rotate(45);
 	this.tile4();
@@ -149,6 +144,13 @@ function draw() {
   translate(40+gutter, 320 + gutter);
   translate(80, 80);
   
+  if (i % 7 == 0) {
+   whiteGrid();
+  
+  } else {
+     whiteGrid();
+  }
+  
   if (!data.forEach) return;
   data.forEach(function(n) {
     if (n == 1) tileset.tile1();
@@ -159,9 +161,10 @@ function draw() {
     i += 1;
     if (i % 7 == 0) {
      translate((160+gutter)*-6, 160+gutter);
-    
+    whiteGrid();
     } else {
       translate(160 + gutter, 0);
+      whiteGrid();
     }
   }); 
    
