@@ -32,7 +32,7 @@ var lineTileset = {
 	line(-80, 0, 80, 0);
   },
   tile5: function() {
-     this.tile4();
+    this.tile4();
     rotate(45);
     this.tile4();
     rotate(-45);
@@ -143,29 +143,33 @@ function draw() {
   var i = 0; 
   translate(40+gutter, 320 + gutter);
   translate(80, 80);
-  
-  if (i % 7 == 0) {
-   whiteGrid();
-  
-  } else {
-     whiteGrid();
-  }
-  
+   
   if (!data.forEach) return;
   data.forEach(function(n) {
+    
+      
+    i += 1;
+    if (i % 7 == 0) {
+     translate((160+gutter)*-6, 160+gutter);
+     whiteGrid();
+       stroke(0,0,0);
+     
+     
+    } else {
+      translate(160 + gutter, 0);
+      whiteGrid();
+        stroke(0,0,0);
+      
+      
+    }
+    
     if (n == 1) tileset.tile1();
     if (n == 2) tileset.tile2();
     if (n == 3) tileset.tile3();
     if (n == 4) tileset.tile4();
-    if (n >= 5) tileset.tile5();    
-    i += 1;
-    if (i % 7 == 0) {
-     translate((160+gutter)*-6, 160+gutter);
-    whiteGrid();
-    } else {
-      translate(160 + gutter, 0);
-      whiteGrid();
-    }
+    if (n >= 5) tileset.tile5();  
+    
+    
   }); 
    
   hasDrawn = true;
