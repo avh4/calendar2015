@@ -93,7 +93,6 @@ var tileset = curvedTileset;
 function setup() {
   colors = {
     background: color(239, 221, 204),
-    highlight: color(239, 221, 204),
     cell: color(255, 255, 255, 255*0.3),
     line: color(0, 0, 0)
   };
