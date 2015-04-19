@@ -70,6 +70,7 @@ var curvedTileset = {
   	line((cellSize/2 - stemSize),0, 0,(cellSize/2 - stemSize));
   },
   tile4: function() {
+    noFill();
     bezier(-cellSize/2, 0,  -smooth, -curve, smooth, -curve, cellSize/2, 0);
     bezier(0, -cellSize/2,  -curve, -smooth, -curve, smooth, 0, cellSize/2);
   },
@@ -91,9 +92,9 @@ var tileset = curvedTileset;
 
 function setup() {
   colors = {
-    background: color(241, 241, 241),
+    background: color(239, 221, 204),
     highlight: color(239, 221, 204),
-    cell: color(255, 255, 255),
+    cell: color(255, 255, 255, 255*0.3),
     line: color(0, 0, 0)
   };
   
@@ -110,8 +111,6 @@ function setup() {
 
 function drawCalendarFrame(title) {
   noStroke();
-  fill(colors.background);
-  rect(gridLeft,gridTop + 20,gutter + (cellSize+gutter)*7,gutter + (cellSize+gutter)*5);
   
   fill(colors.line);
   textSize(92);
@@ -145,6 +144,7 @@ function whiteGrid() {
 
 function draw() {
   if (hasDrawn) return;
+  background(colors.background);
   drawCalendarFrame("March 2015");
   	  
   var i = 0; 
