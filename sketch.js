@@ -1,8 +1,10 @@
-var data = [1, 2, 3, 4, 5,6,5,4];
+var data = [1, 2, 3, 4, 1,2,4, 1, 5, 3, 4, 2,6,5,4,1, 5, 3, 1,2,1,4,3, 2, 3, 5,4, 5,6,1,4];
 var gutter = 10;
 var hasDrawn = false;
 var curve;
 var smooth;
+
+
 
 var lineTileset = {
   tile1: function() {
@@ -11,16 +13,20 @@ var lineTileset = {
 	line( -80,0, -60, 0);
 	line(0, 80, 0, 60);
 	line( 80,0, 60, 0);
+
   },
   tile2: function() {
+  	whiteGrid();
 	this.tile1();
 	line(-60,0, 0,-60);
   },
   tile3: function() {
+  	whiteGrid();
 	this.tile2();
 	line(60,0, 0,60);
   },
   tile4: function() {
+  	whiteGrid();
 	stroke(0, 0, 0);
 	line(0, -80, 0, 80);
 	line(-80, 0, 80, 0);
@@ -32,6 +38,7 @@ var lineTileset = {
     rotate(-45);
   },
   logo: function() {
+  
     for (var i = 0; i < 8; i++) {
   		this.tile4();
   	    rotate(45);
@@ -40,13 +47,13 @@ var lineTileset = {
 };
 
 var curvedTileset = {
-  tile1: function() {
-	stroke(0, 0, 0);
+  tile1: function() { 
+    stroke(0, 0, 0);
 	line(0, -80, 0, -60);
 	line( -80,0, -60, 0);
 	line(0, 80, 0, 60);
-	line( 80,0, 60, 0);
-  },
+	line( 80,0, 60, 0);	
+	  },
   tile2: function() {
   	this.tile1();
   	line(-60,0, 0,-60);
@@ -60,10 +67,10 @@ var curvedTileset = {
     bezier(0, -80,  -curve, -smooth, -curve, smooth, 0, 80);
   },
 	tile5: function() {
-this.tile4();
-rotate(45);
-this.tile4();
-rotate(-45);
+	this.tile4();
+	rotate(45);
+	this.tile4();
+	rotate(-45);
 	},
   logo: function() {
     for (var i = 0; i < 8; i++) {
@@ -85,7 +92,12 @@ function setup() {
   });
   curve = random(200) - 100;
   smooth = random(200) - 100;
-}
+  
+  }
+  
+  
+
+
 
 function drawCalendarFrame(title) {
   noStroke();
@@ -111,33 +123,55 @@ function drawCalendarFrame(title) {
   stroke(0,0,0);
   translate(1100, 80);
   scale(0.7, 0.7);
-  tileset.logo();
+  tileset.logo();  
   pop();
+    
+  
 }
+
+function whiteGrid() {
+	noStroke();
+	fill(255,255,255);
+	rect(-80,-80,160,160);
+}
+
 
 function draw() {
   if (hasDrawn) return;
-  
-  drawCalendarFrame("MARCH 2015");
-  
-  var i = 0;
-  
+  drawCalendarFrame("March 2015");
+  	  
+  var i = 0; 
   translate(40+gutter, 320 + gutter);
   translate(80, 80);
-  
+   
   if (!data.forEach) return;
   data.forEach(function(n) {
+    
+      
+    i += 1;
+    if (i % 7 == 0) {
+     translate((160+gutter)*-6, 160+gutter);
+     whiteGrid();
+       stroke(0,0,0);
+     
+     
+    } else {
+      translate(160 + gutter, 0);
+      whiteGrid();
+        stroke(0,0,0);
+      
+      
+    }
+    
     if (n == 1) tileset.tile1();
     if (n == 2) tileset.tile2();
     if (n == 3) tileset.tile3();
     if (n == 4) tileset.tile4();
-    if (n >= 5) tileset.tile5();
-    i += 1;
-    if (i % 7 == 0) {
-      translate((160+gutter)*-6, 160+gutter);
-    } else {
-      translate(160 + gutter, 0);
-    }
-  });
+    if (n >= 5) tileset.tile5();  
+    
+    
+  }); 
+   
   hasDrawn = true;
+  
 }
