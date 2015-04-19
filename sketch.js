@@ -3,6 +3,9 @@ var data = [1, 2, 3, 4, 1,2,4, 1, 5, 3, 4, 2,6,5,4,1, 5, 3, 1,2,1,4,3, 2, 3, 5,4
 var gridLeft = 40;
 var gridTop = 100;
 var gutter = 10;
+var cellSize = 100;
+var stemSize = cellSize/8;
+var weekdayFontSize = 16;
 
 var colors;
 
@@ -53,22 +56,22 @@ var lineTileset = {
 var curvedTileset = {
   tile1: function() { 
     stroke(0, 0, 0);
-	line(0, -80, 0, -60);
-	line( -80,0, -60, 0);
-	line(0, 80, 0, 60);
-	line( 80,0, 60, 0);	
+	line(0, -cellSize/2, 0, -(cellSize/2 - stemSize));
+	line( -cellSize/2,0, -(cellSize/2 - stemSize), 0);
+	line(0, cellSize/2, 0, (cellSize/2 - stemSize));
+	line( cellSize/2,0, (cellSize/2 - stemSize), 0);	
 	  },
   tile2: function() {
   	this.tile1();
-  	line(-60,0, 0,-60);
+  	line(-(cellSize/2 - stemSize),0, 0,-(cellSize/2 - stemSize));
   },
   tile3: function() {
   	this.tile2();
-  	line(60,0, 0,60);
+  	line((cellSize/2 - stemSize),0, 0,(cellSize/2 - stemSize));
   },
   tile4: function() {
-    bezier(-80, 0,  -smooth, -curve, smooth, -curve, 80, 0);
-    bezier(0, -80,  -curve, -smooth, -curve, smooth, 0, 80);
+    bezier(-cellSize/2, 0,  -smooth, -curve, smooth, -curve, cellSize/2, 0);
+    bezier(0, -cellSize/2,  -curve, -smooth, -curve, smooth, 0, cellSize/2);
   },
 	tile5: function() {
 	this.tile4();
@@ -108,7 +111,7 @@ function setup() {
 function drawCalendarFrame(title) {
   noStroke();
   fill(colors.background);
-  rect(gridLeft,gridTop + 20,1200,890);
+  rect(gridLeft,gridTop + 20,gutter + (cellSize+gutter)*7,gutter + (cellSize+gutter)*5);
   
   fill(colors.line);
   textSize(92);
@@ -116,14 +119,14 @@ function drawCalendarFrame(title) {
   
   // days of the week
   textAlign(CENTER);
-  textSize(20);
-  text("SUNDAY",    gridLeft+gutter+80, gridTop);
-  text("MONDAY",    gridLeft+gutter+80 + (gutter+160)*1, gridTop);
-  text("TUESDAY",   gridLeft+gutter+80 + (gutter+160)*2, gridTop);
-  text("WEDNESDAY", gridLeft+gutter+80 + (gutter+160)*3, gridTop);
-  text("THURSDAY",  gridLeft+gutter+80 + (gutter+160)*4, gridTop);
-  text("FRIDAY",    gridLeft+gutter+80 + (gutter+160)*5, gridTop);
-  text("SATURDAY",  gridLeft+gutter+80 + (gutter+160)*6, gridTop);
+  textSize(weekdayFontSize);
+  text("SUNDAY",    gridLeft+gutter+(cellSize/2), gridTop);
+  text("MONDAY",    gridLeft+gutter+(cellSize/2) + (gutter+cellSize)*1, gridTop);
+  text("TUESDAY",   gridLeft+gutter+(cellSize/2) + (gutter+cellSize)*2, gridTop);
+  text("WEDNESDAY", gridLeft+gutter+(cellSize/2) + (gutter+cellSize)*3, gridTop);
+  text("THURSDAY",  gridLeft+gutter+(cellSize/2) + (gutter+cellSize)*4, gridTop);
+  text("FRIDAY",    gridLeft+gutter+(cellSize/2) + (gutter+cellSize)*5, gridTop);
+  text("SATURDAY",  gridLeft+gutter+(cellSize/2) + (gutter+cellSize)*6, gridTop);
   
   push();
   stroke(colors.line);
@@ -136,7 +139,7 @@ function drawCalendarFrame(title) {
 function whiteGrid() {
 	noStroke();
 	fill(colors.cell);
-	rect(-80,-80,160,160);
+	rect(-cellSize/2,-cellSize/2,cellSize,cellSize);
 }
 
 
@@ -146,17 +149,17 @@ function draw() {
   	  
   var i = 0; 
   translate(gridLeft+gutter, gridTop + 20 + gutter);
-  translate(80, 80);
+  translate(cellSize/2, cellSize/2);
    
   if (!data.forEach) return;
   data.forEach(function(n) {
     i += 1;
     if (i % 7 == 0) {
-     translate((160+gutter)*-6, 160+gutter);
+     translate((cellSize+gutter)*-6, cellSize+gutter);
      whiteGrid();
      stroke(colors.line);
     } else {
-      translate(160 + gutter, 0);
+      translate(cellSize + gutter, 0);
       whiteGrid();
       stroke(colors.line);
     }
