@@ -1,17 +1,35 @@
 var data = [1, 2, 3, 4, 1,2,4, 1, 5, 3, 4, 2,6,5,4,1, 5, 3, 1,2,1,4,3, 2, 3, 5,4, 5,6,1,4];
 
-var gridLeft = 40;
-var gridTop = 100;
-var gutter = 10;
-var cellSize = 100;
-var stemSize = cellSize/8;
-var weekdayFontSize = 16;
-
+var width;
+var height;
+var gridLeft;
+var gridTop;
+var gutter;
+var cellSize;
+var stemSize;
+var weekdayFontSize;
 var colors;
 
 var hasDrawn = false;
 var curve;
 var smooth;
+
+var setVariables = function() {
+  width = window.innerWidth;
+  height = window.innerHeight;
+  gridTop = 100;
+  gutter = 10;
+  cellSize = width / 9;
+  gridLeft = cellSize/2;
+  stemSize = cellSize/8;
+  weekdayFontSize = 6 + (cellSize*14/8/20);
+
+  colors = {
+    background: color(239, 221, 204),
+    cell: color(255, 255, 255, 255*0.3),
+    line: color(0, 0, 0)
+  };
+};
 
 var lineTileset = {
   tile1: function() {
@@ -56,11 +74,11 @@ var lineTileset = {
 var curvedTileset = {
   tile1: function() { 
     stroke(0, 0, 0);
-	line(0, -cellSize/2, 0, -(cellSize/2 - stemSize));
-	line( -cellSize/2,0, -(cellSize/2 - stemSize), 0);
-	line(0, cellSize/2, 0, (cellSize/2 - stemSize));
-	line( cellSize/2,0, (cellSize/2 - stemSize), 0);	
-	  },
+  	line(0, -cellSize/2, 0, -(cellSize/2 - stemSize));
+  	line( -cellSize/2,0, -(cellSize/2 - stemSize), 0);
+  	line(0, cellSize/2, 0, (cellSize/2 - stemSize));
+  	line( cellSize/2,0, (cellSize/2 - stemSize), 0);	
+  },
   tile2: function() {
   	this.tile1();
   	line(-(cellSize/2 - stemSize),0, 0,-(cellSize/2 - stemSize));
@@ -75,10 +93,10 @@ var curvedTileset = {
     bezier(0, -cellSize/2,  -curve, -smooth, -curve, smooth, 0, cellSize/2);
   },
 	tile5: function() {
-	this.tile4();
-	rotate(45);
-	this.tile4();
-	rotate(-45);
+  	this.tile4();
+  	rotate(45);
+  	this.tile4();
+  	rotate(-45);
 	},
   logo: function() {
     for (var i = 0; i < 8; i++) {
@@ -91,13 +109,9 @@ var curvedTileset = {
 var tileset = curvedTileset;
 
 function setup() {
-  colors = {
-    background: color(239, 221, 204),
-    cell: color(255, 255, 255, 255*0.3),
-    line: color(0, 0, 0)
-  };
+  setVariables();
   
-  createCanvas(1280, 2000);
+  createCanvas(width, height);
   angleMode(DEGREES);
   loadCalendar(function(d) {
     data = d;
@@ -112,8 +126,8 @@ function drawCalendarFrame(title) {
   noStroke();
   
   fill(colors.line);
-  textSize(92);
-  text(title, gridLeft, gridTop-180);
+  // textSize(92);
+  // text(title, gridLeft, gridTop-180);
   
   // days of the week
   textAlign(CENTER);
@@ -126,12 +140,12 @@ function drawCalendarFrame(title) {
   text("FRIDAY",    gridLeft+gutter+(cellSize/2) + (gutter+cellSize)*5, gridTop);
   text("SATURDAY",  gridLeft+gutter+(cellSize/2) + (gutter+cellSize)*6, gridTop);
   
-  push();
-  stroke(colors.line);
-  translate(gridLeft-40+1100, gridTop-300+80);
-  scale(0.7, 0.7);
-  tileset.logo();  
-  pop();
+  // push();
+  // stroke(colors.line);
+  // translate(gridLeft-40+1100, gridTop-300+80);
+  // scale(0.7, 0.7);
+  // tileset.logo();
+  // pop();
 }
 
 function whiteGrid() {
@@ -168,10 +182,7 @@ function draw() {
     if (n == 3) tileset.tile3();
     if (n == 4) tileset.tile4();
     if (n >= 5) tileset.tile5();  
-    
-    
   }); 
    
   hasDrawn = true;
-  
 }
