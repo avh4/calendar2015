@@ -14,6 +14,12 @@ var hasDrawn = false;
 var curve;
 var smooth;
 
+window.onresize = function() {
+  hasDrawn = false;
+  setVariables();
+  createCanvas(width, height);
+}
+
 var setVariables = function() {
   width = window.innerWidth;
   height = window.innerHeight;
