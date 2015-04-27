@@ -1,0 +1,20 @@
+{
+  "name": "Calendar 2015",
+  "description": "Calendar 2015",
+  "version": "0.0",
+  "incognito": "split",
+  "chrome_url_overrides": {
+    "newtab": "index.html"
+  },
+  "manifest_version": 2,
+  "permissions": [
+    "identity",
+    "https://content.googleapis.com/"
+  ],
+  "oauth2": {
+    "client_id": "366846958680-4u8gmmr7hajs97vqdeujahpe7d2uf5aj.apps.googleusercontent.com",
+    "scopes": [
+      "https://www.googleapis.com/auth/calendar.readonly"
+    ]
+  }
+}

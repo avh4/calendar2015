@@ -35,6 +35,24 @@ function handleAuthClick(event) {
 
 var loadedData = null;
 
+function makeChromeApiCall(token) {
+  var request = new XMLHttpRequest();
+  request.onreadystatechange = function() {
+    if (request.readyState == XMLHttpRequest.DONE) {
+      if (request.status == 200) {
+        var resp = JSON.parse(request.response);
+        console.log("Loaded calendar data", resp);
+        loadedData = processCalendar(resp);
+        if (waitingCallback) {
+          waitingCallback(loadedData);
+        }
+      }
+    }
+  }
+  request.open('GET', 'https://content.googleapis.com/calendar/v3/calendars/primary/events?singleEvents=true&timeMax=2014-12-01T00%3A00%3A00-08%3A00&timeMin=2014-11-01T00%3A00%3A00-08%3A00&access_token='+token, true);
+  request.send();
+}
+
 function makeApiCall() {
   gapi.client.load('calendar', 'v3', function() {
     var request = gapi.client.calendar.events.list({
@@ -44,7 +62,7 @@ function makeApiCall() {
       "timeMin": "2014-11-01T00:00:00-08:00",
       "timeMax": "2014-12-01T00:00:00-08:00",
     });
-    
+
     request.execute(function(resp) {
       console.log("Loaded calendar data", resp);
       loadedData = processCalendar(resp);
