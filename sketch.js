@@ -22,6 +22,15 @@ window.onresize = function() {
 }
 
 var setVariables = function() {
+
+  var themes = {
+    orange: {
+      background: color(239, 221, 204),
+      cell: color(255, 255, 255, 255*0.3),
+      line: color(0, 0, 0)
+    }
+  };
+
   
   width = window.innerWidth;
   height = window.innerHeight;
@@ -34,11 +43,7 @@ var setVariables = function() {
   stemSize2 = cellSize/3;
   weekdayFontSize = 6 + (cellSize*14/8/20);
 
-  colors = {
-    background: color(239, 221, 204),
-    cell: color(255, 255, 255, 255*0.3),
-    line: color(0, 0, 0)
-  };
+  colors = themes.orange;
 };
 
 var Tileset1 = {
@@ -156,6 +161,13 @@ var Tileset3 = {
   }
 };
 
+function u(p) {
+  return p*cellSize/10;
+}
+
+function uline(x1, y1, x2, y2) {
+  line(u(x1), u(y1), u(x2), u(y2));
+}
 
 var Tileset4 = {
   useCornerOrigin: false,
@@ -163,10 +175,10 @@ var Tileset4 = {
   tile1: function() {
   	strokeWeight(3); 
     stroke(0, 0, 0);
-  	line(0, -cellSize/2, 0, -(cellSize/2 - stemSize));
-  	line( -cellSize/2,0, -(cellSize/2 - stemSize), 0);
-  	line(0, cellSize/2, 0, (cellSize/2 - stemSize));
-  	line( cellSize/2,0, (cellSize/2 - stemSize), 0);	
+    uline(0, -5, 0, -4);
+    uline(-5,0,-4,0);
+    uline(0, 5, 0, 4);
+    uline(5, 0, 4, 0);
   },
   tile2: function() {
   	noFill();
