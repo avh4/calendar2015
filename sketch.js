@@ -52,7 +52,7 @@ var Tileset1 = {
   },
   tile2: function() {
   	this.tile1();
-	line(-60,0, 0,-60);
+	  line(-60,0, 0,-60);
   },
   tile3: function() {
   	
@@ -158,6 +158,8 @@ var Tileset3 = {
 
 
 var Tileset4 = {
+  useCornerOrigin: false,
+
   tile1: function() {
   	strokeWeight(3); 
     stroke(0, 0, 0);
@@ -267,12 +269,21 @@ function draw() {
       whiteGrid();
       stroke(colors.line);
     }
+
+    if (tileset.useCornerOrigin) {
+      translate(-cellSize/2, -cellSize/2);
+    }
     
     if (n == 1) tileset.tile1();
     if (n == 2) tileset.tile2();
     if (n == 3) tileset.tile3();
     if (n == 4) tileset.tile4();
     if (n >= 5) tileset.tile5();  
+
+    if (tileset.useCornerOrigin) {
+      translate(cellSize/2, cellSize/2);
+    }
+
   }); 
    
   hasDrawn = true;
