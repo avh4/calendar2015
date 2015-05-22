@@ -169,12 +169,30 @@ function uline(x1, y1, x2, y2) {
   line(u(x1), u(y1), u(x2), u(y2));
 }
 
+function ucurve(x1, y1, x2, y2) {
+  curve(u(x1), u(y1), u(x2), u(y2));
+}
+
+function ubezier(x1, y1, x2, y2) {
+  bezier(u(x1), u(y1), u(x2), u(y2));
+}
+
+
+function uquadraticVertex(x1, y1, x2, y2) {
+  quadraticVertex(u(x1), u(y1), u(x2), u(y2));
+}
+
+function uvertex(x1, y1, x2, y2) {
+  vertex(u(x1), u(y1), u(x2), u(y2));
+}
+
+
+
 var Tileset4 = {
   useCornerOrigin: false,
 
   tile1: function() {
   	strokeWeight(3); 
-    stroke(0, 0, 0);
     uline(0, -5, 0, -4);
     uline(-5,0,-4,0);
     uline(0, 5, 0, 4);
@@ -214,21 +232,19 @@ var Tileset4a = {
 
   tile1: function() {
     strokeWeight(3); 
-    stroke(0, 0, 0);
-    line(0, -cellSize/2, 0, -(cellSize/2 - stemSize));
-    line( -cellSize/2,0, -(cellSize/2 - stemSize), 0);
-    line(0, cellSize/2, 0, (cellSize/2 - stemSize));
-    line( cellSize/2,0, (cellSize/2 - stemSize), 0);  
+    uline(0, -5, 0, -4);
+    uline(-5,0,-4,0);
+    uline(0, 5, 0, 4);
+    uline(5, 0, 4, 0);  
   },
   tile2: function() {
     noFill();
-    line(0, -cellSize/2, 0, -(cellSize/2 - stemSize));
+    uline(0, -5, 0, -4);
     beginShape();
-      vertex(-cellSize/2, cellSize/2);
-      quadraticVertex(-cellSize/10, cellSize/10, cellSize/10, cellSize/10);
-      quadraticVertex(20, 80, 80, 80);
-      vertex(80, 60);
+      uvertex(0, -4);
+      uquadraticVertex(1, 2, -4, 0);
     endShape();
+    uline(-5,0,-4,0);
   },
   tile3: function() {
     this.tile2();
