@@ -13,6 +13,7 @@ var colors;
 var hasDrawn = false;
 var curve;
 var smooth;
+var arch;
 
 window.onresize = function() {
   hasDrawn = false;
@@ -21,13 +22,16 @@ window.onresize = function() {
 }
 
 var setVariables = function() {
+  
   width = window.innerWidth;
   height = window.innerHeight;
   gridTop = 100;
   gutter = 10;
   cellSize = width / 9;
   gridLeft = cellSize/2;
-  stemSize = cellSize/8;
+  stemSize = cellSize/30;
+  stemSize1 = cellSize/12;
+  stemSize2 = cellSize/3;
   weekdayFontSize = 6 + (cellSize*14/8/20);
 
   colors = {
@@ -37,28 +41,26 @@ var setVariables = function() {
   };
 };
 
-var lineTileset = {
+var Tileset1 = {
   tile1: function() {
-	stroke(0, 0, 0);
-	line(0, -80, 0, -60);
-	line( -80,0, -60, 0);
-	line(0, 80, 0, 60);
-	line( 80,0, 60, 0);
+	strokeWeight(2); 
+	line(0, -cellSize/2, 0, -(cellSize/2 - stemSize1));
+	line( -cellSize/2,0, -(cellSize/2 - stemSize1), 0);
+	line(0, cellSize/2, 0, (cellSize/2 - stemSize1));
+	line( cellSize/2,0, (cellSize/2 - stemSize1), 0);
 
   },
   tile2: function() {
-  	whiteGrid();
-	this.tile1();
+  	this.tile1();
 	line(-60,0, 0,-60);
   },
   tile3: function() {
-  	whiteGrid();
+  	
 	this.tile2();
 	line(60,0, 0,60);
   },
   tile4: function() {
-  	whiteGrid();
-	stroke(0, 0, 0);
+  	
 	line(0, -80, 0, 80);
 	line(-80, 0, 80, 0);
   },
@@ -77,15 +79,17 @@ var lineTileset = {
   }
 };
 
-var curvedTileset = {
-  tile1: function() { 
-    stroke(0, 0, 0);
+var Tileset2 = {
+  tile1: function() {
+  	strokeWeight(2); 
+    
   	line(0, -cellSize/2, 0, -(cellSize/2 - stemSize));
   	line( -cellSize/2,0, -(cellSize/2 - stemSize), 0);
   	line(0, cellSize/2, 0, (cellSize/2 - stemSize));
   	line( cellSize/2,0, (cellSize/2 - stemSize), 0);	
   },
   tile2: function() {
+  	noFill();
   	this.tile1();
   	line(-(cellSize/2 - stemSize),0, 0,-(cellSize/2 - stemSize));
   },
@@ -112,7 +116,86 @@ var curvedTileset = {
   }
 };
 
-var tileset = curvedTileset;
+
+
+var Tileset3 = {
+  tile1: function() { 
+  	strokeWeight(3); 
+  	line(cellSize/3, -cellSize/2, cellSize/3, -(cellSize/2 - stemSize2));
+	line(cellSize/5, -cellSize/2, cellSize/5, -(cellSize/2 - stemSize2));
+  	line( -cellSize/2, cellSize/5 , -(cellSize/2 - stemSize2), cellSize/5);
+  	
+//  	line(0, cellSize/2, 0, (cellSize/2 - stemSize));
+//  	line( cellSize/2,0, (cellSize/2 - stemSize), 0);	
+  },
+  tile2: function() {
+  	this.tile1();
+  	line(cellSize/5, -(cellSize/2 - stemSize2),-cellSize/2,-cellSize/2);
+  },
+  tile3: function() {
+  	this.tile2();
+  	line((cellSize/2 - stemSize),0, 0,(cellSize/2 - stemSize));
+  },
+  tile4: function() {
+    line(-cellSize/2, 0, cellSize/2, 0);
+    line( -cellSize/4, 0,  0, -cellSize/4);
+    line((cellSize/2 - stemSize),0, 0,(cellSize/2 - stemSize));
+  },
+	tile5: function() {
+  this.tile3();
+  	rotate(45);
+  	this.tile4();
+  	rotate(-45);
+  	 
+	},
+  logo: function() {
+    for (var i = 0; i < 8; i++) {
+		this.tile4();
+	    rotate(45);
+    }
+  }
+};
+
+
+var Tileset4 = {
+  tile1: function() {
+  	strokeWeight(3); 
+    stroke(0, 0, 0);
+  	line(0, -cellSize/2, 0, -(cellSize/2 - stemSize));
+  	line( -cellSize/2,0, -(cellSize/2 - stemSize), 0);
+  	line(0, cellSize/2, 0, (cellSize/2 - stemSize));
+  	line( cellSize/2,0, (cellSize/2 - stemSize), 0);	
+  },
+  tile2: function() {
+  	noFill();
+  	this.tile1();
+  	bezier(-(cellSize/2 - stemSize),0, -20,-2,-2,-20, 0,-(cellSize/2 - stemSize));
+  },
+  tile3: function() {
+  	this.tile2();
+  	bezier((cellSize/2 - stemSize),0,20,2,2,20, 0,(cellSize/2 - stemSize));
+  },
+  tile4: function() {
+    noFill();
+    bezier(-cellSize/2, 0,  -smooth, -smooth, smooth, -smooth, cellSize/2, 0);
+    bezier(0, -cellSize/2,  -smooth, -smooth, -smooth, smooth, 0, cellSize/2);
+  },
+	tile5: function() {
+  	this.tile4();
+  	rotate(arch*45);
+  	this.tile4();
+  	rotate(arch*-45);
+	},
+  logo: function() {
+    for (var i = 0; i < 8; i++) {
+		this.tile4();
+	    rotate(45);
+    }
+  }
+};
+
+
+var tileset = Tileset4;
 
 function setup() {
   setVariables();
@@ -124,8 +207,10 @@ function setup() {
     hasDrawn = false;
     clear();
   });
-  curve = random(200) - 100;
-  smooth = random(200) - 100;  
+  curve = random(40);
+  smooth = random(40);  
+  arch = random(-1);
+  archb = random(-1,1);
 }
 
 function drawCalendarFrame(title) {
