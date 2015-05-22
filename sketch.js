@@ -196,8 +196,53 @@ var Tileset4 = {
   }
 };
 
+var Tileset4a = {
 
-var tileset = Tileset4;
+  useCornerOrigin: false,
+
+  tile1: function() {
+    strokeWeight(3); 
+    stroke(0, 0, 0);
+    line(0, -cellSize/2, 0, -(cellSize/2 - stemSize));
+    line( -cellSize/2,0, -(cellSize/2 - stemSize), 0);
+    line(0, cellSize/2, 0, (cellSize/2 - stemSize));
+    line( cellSize/2,0, (cellSize/2 - stemSize), 0);  
+  },
+  tile2: function() {
+    noFill();
+    line(0, -cellSize/2, 0, -(cellSize/2 - stemSize));
+    beginShape();
+      vertex(-cellSize/2, cellSize/2);
+      quadraticVertex(-cellSize/10, cellSize/10, cellSize/10, cellSize/10);
+      quadraticVertex(20, 80, 80, 80);
+      vertex(80, 60);
+    endShape();
+  },
+  tile3: function() {
+    this.tile2();
+    bezier((cellSize/2 - stemSize),0,20,2,2,20, 0,(cellSize/2 - stemSize));
+  },
+  tile4: function() {
+    noFill();
+    bezier(-cellSize/2, 0,  -smooth, -smooth, smooth, -smooth, cellSize/2, 0);
+    bezier(0, -cellSize/2,  -smooth, -smooth, -smooth, smooth, 0, cellSize/2);
+  },
+  tile5: function() {
+    this.tile4();
+    rotate(arch*45);
+    this.tile4();
+    rotate(arch*-45);
+  },
+  logo: function() {
+    for (var i = 0; i < 8; i++) {
+    this.tile4();
+      rotate(45);
+    }
+  }
+};
+
+
+var tileset = Tileset4a;
 
 function setup() {
   setVariables();
