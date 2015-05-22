@@ -42,7 +42,6 @@ var setVariables = function() {
   stemSize1 = cellSize/12;
   stemSize2 = cellSize/3;
   weekdayFontSize = 6 + (cellSize*14/8/20);
-
   colors = themes.orange;
 };
 
@@ -173,8 +172,8 @@ function ucurve(x1, y1, x2, y2) {
   curve(u(x1), u(y1), u(x2), u(y2));
 }
 
-function ubezier(x1, y1, x2, y2) {
-  bezier(u(x1), u(y1), u(x2), u(y2));
+function ubezier(x1, y1, x2, y2, x3, y3, x4, y4) {
+  bezier(u(x1), u(y1), u(x2), u(y2),u(x3), u(y3),u(x4), u(y4));
 }
 
 
@@ -248,12 +247,12 @@ var Tileset4a = {
   },
   tile3: function() {
     this.tile2();
-    bezier((cellSize/2 - stemSize),0,20,2,2,20, 0,(cellSize/2 - stemSize));
+    ubezier(5,0,1,.25,.25,1, 0,1);
   },
   tile4: function() {
     noFill();
-    bezier(-cellSize/2, 0,  -smooth, -smooth, smooth, -smooth, cellSize/2, 0);
-    bezier(0, -cellSize/2,  -smooth, -smooth, -smooth, smooth, 0, cellSize/2);
+    ubezier(-5, 0,  smooth, smooth, smooth, smooth, 5, 0);
+    ubezier(0, -5,  smooth, smooth, smooth, smooth, 0, 5);
   },
   tile5: function() {
     this.tile4();
@@ -282,8 +281,8 @@ function setup() {
     hasDrawn = false;
     clear();
   });
-  curve = random(40);
-  smooth = random(40);  
+  curve = random(-5,5);
+  smooth = random(-5,5);  
   arch = random(-1);
   archb = random(-1,1);
 }
